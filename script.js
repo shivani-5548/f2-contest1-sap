@@ -1,133 +1,165 @@
-const data = [
-    { name: "john", age: 24, profession: "developer" },
-    { name: "jane", age: 25, profession: "admin" },
-  ];
-  
-  // 1. Print Developers
-  function printDeveloper() {
-    let developers = data.filter(
-      (employee) => employee.profession === "developer"
-    );
-    for (let developer of developers) {
-      console.log(developer);
-    }
+let arr = [
+  { id: 1, name: 'john', age: 18, profession: 'developer', salary: 1000 },
+  { id: 2, name: 'jack', age: 20, profession: 'developer', salary: 1100 },
+  { id: 3, name: 'karen', age: 17, profession: "admin", salary: 900 },
+  { id: 4, name: "jane", age: 27, profession: "admin", salary: 800 }
+];
+console.log("The original/initial array is: ", arr);
+
+// 1.(a) Print all developers from the array.
+
+function PrintDeveloper() {
+  //Write your code here , just console.log
+  let dev_names = [];
+  for(let i=0; i<arr.length; i++){
+      if(arr[i].profession === "developer"){
+          dev_names.push(arr[i].name);
+      }
   }
-  
-  // 2. Add Data
+  let ans = dev_names.join(", ");
+  console.log(dev_names);
+  console.log(ans);
+}
+
+// 2.(a) Add a new data object to the array arr.
+
   function addData() {
-    const inputData = window.prompt(
-      "Enter name,age,profession comma seperated values"
-    );
-  
-    if (inputData.length == 0) {
-      return;
-    }
-    const dataArray = inputData.split(",");
-  
-    if (dataArray.length != 3) {
-      alert("insufficient data");
-    } else {
-      const newDataObject = {
-        name: dataArray[0],
-        age: dataArray[1],
-        profession: dataArray[2],
-      };
-  
-      data.push(newDataObject);
-    }
+  const newEntry = {
+      id: arr.length+1,
+      name: prompt("Enter name: "),
+      age: parseInt(prompt("Enter age: ")),
+      profession: prompt("Enter profession: "),
+      salary: parseInt(prompt("Enter salary: ")),
+  };
+  arr.push(newEntry);
+  console.log("New entry in database: ", newEntry);
+  console.log("New Database list: ", arr);
   }
-  
-  // 3. Remove Admins
+
+// 3. Remove Admins
   function removeAdmin() {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].profession === "admin") {
-        data.splice(i, 1);
-        i--;
+     console.log("Original Array: ",arr);
+      let deleted_list = [];
+
+     for(let i=0; i<arr.length; i++){
+
+      if(arr[i].profession === "admin"){
+         deleted_list.push(arr.splice(i,1));// deletes 1 entry from arr from i index
+          i--;
       }
-    }
+     }
+
+     console.log("Deleted objs: ",deleted_list);
+     console.log("New arr after admins deleted",arr);
   }
-  
-  // 4. Concatenate Array
+
+// 4. Concatenate Array
   function concatenateArray() {
-    let dummyArray = [
-      { name: "sam", age: 22, profession: "teacher" },
-      { name: "aravind", age: 33, profession: "datascience" },
-    ];
-  
-    const combinedArray = data.concat(dummyArray);
-    for (let employee of combinedArray) {
-      console.log(employee);
-    }
+      let developers = ["john", "jack"];
+      console.log("array of developers", developers);
+
+      let admins = ["karen", "jane"];
+      console.log("array of admins", admins);
+
+      // let employed = [...admins, ...developers];// we may also use ... operator
+      let employed = [].concat(admins,developers);
+
+      console.log("array of employed person both admins and developers:", employed);
+
   }
-  
-  // 5. Average Age
+
+// 5. Average Age
   function averageAge() {
-    let ageSum = 0;
-    for (let employee of data) {
-      ageSum += employee.age;
-    }
-    console.log("average age :", ageSum / data.length);
+      let age_sum = null;
+      console.log("for all people in list:", arr);
+      for( let i=0; i<arr.length; i++){
+          age_sum += arr[i].age;
+      }
+      let avg_age = age_sum/arr.length;
+      console.log("the Average Age is : ", avg_age, "years. ");
   }
-  
-  // 6. Age Check
+
+// 6. Age Check
   function checkAgeAbove25() {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].age > 25) {
-        console.log("person found older than 25 years");
-        return;
+      let old_persons = [];
+
+      for(let i=0; i<arr.length; i++){
+          if(arr[i].age > 25){
+              old_persons.push(arr[i].name);
+          }
       }
-    }
-    console.log("no person found older than 25 years");
+
+      if( old_persons.length < 1){
+          console.log("None of the people are older than 25");
+      } else {
+          console.log("The people who are older than 25 are: ", old_persons);
+      }
   }
-  
-  // 7. Unique Professions
+
+// 7. Unique Professions
   function uniqueProfessions() {
-    const map = new Map();
-  
-    for (let employee of data) {
-      if (!map.has(employee.profession)) {
-        map.set(employee.profession, 0);
+      let unique_professions = [];
+      let map = {};
+      for (const person of arr) {
+          if(!map[person.profession]){
+              unique_professions.push(person.profession);
+              map[person.profession] = true;
+          }
+          
       }
-    }
-  
-    let keys = map.keys();
-    for (let profession of keys) {
-      console.log(profession);
-    }
+
+      console.log("All unique professions in the arr are: ", unique_professions);
   }
-  
-  // 8. Sort by Age
+
+// 8. Sort by Age
   function sortByAge() {
-    data.sort((a, b) => a.age - b.age);
+      console.log("Original arr: ", arr);
+      arr.sort((a,b) =>a.age - b.age);
+      console.log("New age-sorted arr: ", arr);
   }
-  
-  // 9. Update Profession
+
+// 9. Update Profession
   function updateJohnsProfession() {
-    for (let employee of data) {
-      if (employee.name === "john") {
-        employee.profession = "manager";
+      let ans = {};
+      for (const person of arr) {
+          if(person.name == "john"){
+              person.profession = "manager";
+              ans = person;
+              break;
+          }
       }
-    }
+      console.log(ans);
+      console.log("Updated arr: ", arr);
+      
   }
-  
-  // 10. Profession Count
+
+// 10. Profession Count
   function getTotalProfessions() {
-    let count = 0;
-  
-    for (let employee of data) {
-      if (
-        employee.profession === "developer" ||
-        employee.profession === "admin"
-      ) {
-        count += 1;
+      map = {}
+      for(const person of arr){
+          if(map[person.profession]){
+              map[person.profession]++;
+          }else{
+              map[person.profession] = 1;
+          }
       }
-    }
-    console.log(count);
+      console.log("the profession and count of people in said profession is as follows:", map);
+      
   }
-  
-  // added this just to make it easy to see outputs for functions which are not logging to console
-  function printAll() {
-    for (let employee of data) {
-      console.log(employee);
-    }
+
+// 11. Print all developers from the array whose salary is above the average salary of the array.
+function PrintHighEarningDevelopers() {
+  //Write your code here , just console.log
+  let sum_salary = 0, dev_names=[];
+  for(let i=0; i<arr.length; i++){
+      sum_salary += arr[i].salary;
   }
+  let avg_salary = sum_salary/n;
+  for(let i=0; i<arr.length; i++){
+      if(arr[i].salary > avg_salary ){
+          dev_names.push(arr[i].name);
+      }
+  }
+  let ans = dev_names.join(", ");
+  console.log(ans);
+}
